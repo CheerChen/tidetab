@@ -1,0 +1,54 @@
+/* Design tokens shared by every prototype block. Blocks link this file and
+   never redefine :root themselves. */
+:root {
+  --bg: #f6f6f4;
+  --surface: #ffffff;
+  --border: #e4e4e0;
+  --text: #1d1d1b;
+  --muted: #74746f;
+  --faint: #a9a9a3;
+  --accent: #2f6fde;
+  --up: #1f9d55;
+
+  --hub-jira: #2f6fde;
+  --hub-github: #6e5494;
+  --hub-confluence: #1d8bb3;
+  --hub-aws: #e07b00;
+  --hub-microsoft: #5b5fc7;
+  --hub-ai: #c2523a;
+  --hub-other: #8a8a84;
+
+  --font: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "PingFang SC", "Segoe UI", sans-serif;
+  --mono: ui-monospace, "SF Mono", Menlo, monospace;
+  --radius: 10px;
+  --row: 30px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #161615;
+    --surface: #1f1f1e;
+    --border: #2f2f2d;
+    --text: #e8e8e4;
+    --muted: #9a9a94;
+    --faint: #63635f;
+    --accent: #6d9cf0;
+    --up: #4cc27f;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #161615;
+  --surface: #1f1f1e;
+  --border: #2f2f2d;
+  --text: #e8e8e4;
+  --muted: #9a9a94;
+  --faint: #63635f;
+  --accent: #6d9cf0;
+  --up: #4cc27f;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font: 13px/1.4 var(--font);
+}

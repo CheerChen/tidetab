@@ -1,0 +1,11 @@
+# Browsing-history exports and analysis output stay local, never committed
+data/
+out/
+
+# macOS
+.DS_Store
+._*
+
+# Editors
+.vscode/
+.idea/
