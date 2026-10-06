@@ -39,7 +39,25 @@ history export ─┼─> collect -> normalize -> score ─┬─> new tab page,
 All data stays in the browser. No network requests, no remote code.
 History exports used for seeding or tuning live in `data/` (git-ignored).
 
+## Development
+
+No dependencies; Node 22+ only.
+
+```
+node --test                  # unit tests (synthetic data)
+node scripts/preview.mjs     # rank data/history_*.json -> out/preview.md, out/snapshot.js
+open prototypes/newtab/compare.html   # layout variants, reads out/snapshot.js
+```
+
+`data/` holds a history export (`history_urls.json`, `history_visits.json`)
+and is git-ignored, as is `out/`.
+
 ## Status
 
-Design stage. Next: tune normalization and scoring offline against an
-exported history before writing the extension.
+- Done: ranking core with learned fold templates (layer 1: URL granularity),
+  offline preview, three layout prototypes. Variant C (core columns + chips)
+  is the closest so far.
+- Next: chip labels need the site name; then the one-week trial as a minimal
+  new tab extension with a frozen snapshot and local click logging.
+- Later: hubs that promote/demote themselves (layer 2) and project clusters
+  that span hubs (layer 3).
