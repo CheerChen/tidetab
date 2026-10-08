@@ -96,7 +96,9 @@ const RULES = [
     if (!service || service === "console") {
       return { hub: "AWS", key: "aws:home", label: "console home", href: `${home}/console/home` };
     }
-    return { hub: "AWS", key: `aws:${service}`, label: service, href: `${home}/${service}/home` };
+    // One entry per console URL (query and hash dropped); services are not merged.
+    const path = u.pathname.replace(/\/$/, "");
+    return { hub: "AWS", key: `aws:${path}`, label: service, href: `${home}${path}` };
   },
   function microsoft(u) {
     const h = u.hostname;

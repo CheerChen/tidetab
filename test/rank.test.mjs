@@ -114,3 +114,13 @@ test("repeat visits within one session count once", () => {
   const hubs = rank([visit(url, 3 * HOUR), visit(url, 3 * HOUR - 60e3), visit(url, 1 * HOUR)], NOW);
   assert.equal(entry(hubs, url).visits, 2);
 });
+
+test("AWS console pages are not merged by service: each URL is its own entry", () => {
+  const a = normalize("https://console.aws.amazon.com/ec2/home?region=ap-northeast-1#Instances:");
+  const b = normalize("https://console.aws.amazon.com/ec2/home/?region=ap-northeast-1#Volumes:");
+  const c = normalize("https://console.aws.amazon.com/ec2/v2/home#Images");
+  assert.equal(a[0].key, "aws:/ec2/home");
+  assert.equal(b[0].key, "aws:/ec2/home");
+  assert.equal(c[0].key, "aws:/ec2/v2/home");
+  assert.equal(a[0].href, "https://console.aws.amazon.com/ec2/home");
+});
