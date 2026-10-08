@@ -47,6 +47,7 @@ No dependencies; Node 22+ only.
 node --test                  # unit tests (synthetic data)
 node scripts/preview.mjs     # rank data/history_*.json -> out/preview.md, out/snapshot.js
 open prototypes/newtab/compare.html   # layout variants, reads out/snapshot.js
+node scripts/build-extension.mjs       # assemble dist/extension for "Load unpacked"
 ```
 
 `data/` holds a history export (`history_urls.json`, `history_visits.json`)
@@ -57,7 +58,11 @@ and is git-ignored, as is `out/`.
 - Done: ranking core with learned fold templates (layer 1: URL granularity),
   offline preview, three layout prototypes. Variant C (core columns + chips)
   is the closest so far.
-- Next: chip labels need the site name; then the one-week trial as a minimal
-  new tab extension with a frozen snapshot and local click logging.
+- Done: extension skeleton in `extension/` (MV3). The service worker records
+  visits into IndexedDB, rebuilds the snapshot daily, and logs new-tab clicks
+  locally. The new tab page shows Jira, GitHub and Confluence as three
+  columns (16 items each). AWS is ranked per console URL but not shown.
+- Next: check the skeleton in Chrome; chip labels need the site name; then the
+  one-week trial.
 - Later: hubs that promote/demote themselves (layer 2) and project clusters
   that span hubs (layer 3).

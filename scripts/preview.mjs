@@ -3,6 +3,8 @@
 import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
 import { parseArgs } from "node:util";
 import { rank, learnFolds } from "../src/rank.mjs";
+import { buildSnapshot } from "../src/snapshot.mjs";
+import { toVisitRecords } from "../src/import.mjs";
 
 const { values: args } = parseArgs({
   options: {
@@ -15,11 +17,7 @@ const { values: args } = parseArgs({
 
 const urls = JSON.parse(readFileSync(`${args.data}/history_urls.json`, "utf8"));
 const rawVisits = JSON.parse(readFileSync(`${args.data}/history_visits.json`, "utf8"));
-const byId = new Map(urls.map((u) => [u.id, u]));
-const visits = rawVisits.flatMap((v) => {
-  const u = byId.get(v.url_id);
-  return u ? [{ url: u.url, title: u.title, time: Date.parse(v.visit_time), transition: v.core_transition }] : [];
-});
+const visits = toVisitRecords(urls, rawVisits);
 
 // Score as of the newest visit so the preview is reproducible.
 const now = Math.max(...visits.map((v) => v.time));
@@ -67,38 +65,7 @@ mkdirSync("out", { recursive: true });
 writeFileSync("out/preview.md", text + "\n");
 console.log(text);
 
-// Snapshot for UI prototypes: top entries per hub with a 7-day trend, written
-// as a script (not JSON) so pages opened from file:// can load it.
-const WEEK = 7 * 86400e3;
-const before = new Map(
-  rank(visits.filter((v) => v.time <= now - WEEK), now - WEEK, { halfLifeDays: Number(args["half-life"]), folds })
-    .flatMap((h) => h.entries)
-    .map((e) => [e.key, e.score]),
-);
-const trend = (e) => {
-  const prev = before.get(e.key) ?? 0;
-  if (prev < 0.05) return "new";
-  const r = e.score / prev;
-  // A week with no visits decays to ~0.71 (half-life 14d), so that already reads as down.
-  return r > 1.2 ? "up" : r < 0.85 ? "down" : "flat";
-};
-const snapshot = {
-  asOf: now,
-  hubs: hubs.map((h) => ({
-    name: h.name,
-    score: +h.score.toFixed(2),
-    total: h.entries.length,
-    entries: h.entries.slice(0, 20).map((e) => ({
-      key: e.key,
-      label: e.label ?? null,
-      title: e.title || null,
-      href: e.href,
-      score: +e.score.toFixed(2),
-      trend: trend(e),
-      visits: e.visits,
-      last: e.last,
-    })),
-  })),
-};
+// Snapshot for UI prototypes, written as a script (not JSON) so pages opened from file:// can load it.
+const snapshot = buildSnapshot(visits, now, { halfLifeDays: Number(args["half-life"]), folds });
 writeFileSync("out/snapshot.js", `window.SNAPSHOT = ${JSON.stringify(snapshot)};\n`);
 console.error(`wrote out/snapshot.js (${snapshot.hubs.length} hubs)`);
