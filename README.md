@@ -17,14 +17,13 @@ your own history.
 ## Design
 
 ```
-chrome.history ─┐
-history export ─┼─> collect -> normalize -> score ─┬─> new tab page, grouped by hub
-(one-time seed) ┘   (own store)                    └─> archive stale bookmarks
+chrome.history -> collect -> normalize -> score ─┬─> new tab page, grouped by hub
+                  (own store)                    └─> archive stale bookmarks
 ```
 
 1. **Collect** — record every visit (`history.onVisited`) in the extension's
    own IndexedDB, so ranking is not limited by Chrome's 90-day history.
-   Seed once from existing history or an exported JSON.
+   On install, seed once from the profile's existing history.
 2. **Normalize** — fold URLs into entries with per-hub rules: a GitHub repo
    absorbs its PRs and files, a Jira issue is keyed by issue key, a Confluence
    page by page id, AWS by service; everything else by URL without query/hash.
@@ -37,7 +36,8 @@ history export ─┼─> collect -> normalize -> score ─┬─> new tab page,
 ## Privacy
 
 All data stays in the browser. No network requests, no remote code.
-History exports used for seeding or tuning live in `data/` (git-ignored).
+The offline preview reads a copy of the local Chrome History database; its output
+in `out/` is git-ignored.
 
 ## Development
 
@@ -45,13 +45,14 @@ No dependencies; Node 22+ only.
 
 ```
 node --test                  # unit tests (synthetic data)
-node scripts/preview.mjs     # rank data/history_*.json -> out/preview.md, out/snapshot.js
+node scripts/preview.mjs     # rank Chrome "Profile 1" History -> out/preview.md, out/snapshot.js
 open prototypes/newtab/compare.html   # layout variants, reads out/snapshot.js
 node scripts/build-extension.mjs       # assemble dist/extension for "Load unpacked"
 ```
 
-`data/` holds a history export (`history_urls.json`, `history_visits.json`)
-and is git-ignored, as is `out/`.
+The preview reads `~/Library/Application Support/Google/Chrome/<profile>/History`
+(a temporary copy, since Chrome locks it). Pick another profile with `--profile "<name>"`
+or a file with `--history <path>`.
 
 ## Status
 

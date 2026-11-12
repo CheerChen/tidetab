@@ -1,23 +1,23 @@
-// Offline preview: rank an exported Chrome history and print what the new tab
-// page would show. Usage: node scripts/preview.mjs [--half-life 14] [--per-hub 8] [--min-hub 2]
-import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
+// Offline preview: rank a Chrome profile's History and print what the new tab page
+// would show. Usage: node scripts/preview.mjs [--profile "Profile 1"] [--history <path>]
+//   [--half-life 14] [--per-hub 8] [--min-hub 2]
+import { writeFileSync, mkdirSync } from "node:fs";
 import { parseArgs } from "node:util";
 import { rank, learnFolds } from "../src/rank.mjs";
 import { buildSnapshot } from "../src/snapshot.mjs";
-import { toVisitRecords } from "../src/import.mjs";
+import { profileHistoryPath, readHistory } from "./history.mjs";
 
 const { values: args } = parseArgs({
   options: {
-    data: { type: "string", default: "data" },
+    profile: { type: "string", default: "Profile 1" },
+    history: { type: "string" },
     "half-life": { type: "string", default: "14" },
     "per-hub": { type: "string", default: "8" },
     "min-hub": { type: "string", default: "2" },
   },
 });
 
-const urls = JSON.parse(readFileSync(`${args.data}/history_urls.json`, "utf8"));
-const rawVisits = JSON.parse(readFileSync(`${args.data}/history_visits.json`, "utf8"));
-const visits = toVisitRecords(urls, rawVisits);
+const visits = readHistory(args.history ?? profileHistoryPath(args.profile));
 
 // Score as of the newest visit so the preview is reproducible.
 const now = Math.max(...visits.map((v) => v.time));

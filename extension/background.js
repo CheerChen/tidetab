@@ -1,7 +1,6 @@
 // Service worker: records every visit into the extension's own IndexedDB,
 // rebuilds the frozen snapshot daily, and logs new-tab clicks locally.
 import { buildSnapshot } from "./lib/snapshot.mjs";
-import { toVisitRecords } from "./lib/import.mjs";
 
 const HALF_LIFE_DAYS = 14;
 const REBUILD_MINUTES = 24 * 60;
@@ -85,10 +84,6 @@ chrome.alarms.onAlarm.addListener((alarm) => {
   if (alarm.name === "rebuild") rebuild();
 });
 
-chrome.runtime.onMessage.addListener((msg, _sender, reply) => {
+chrome.runtime.onMessage.addListener((msg) => {
   if (msg.type === "click") put("clicks", [{ key: msg.key, hub: msg.hub, href: msg.href, asOf: msg.asOf, time: Date.now() }]);
-  if (msg.type === "import") {
-    put("visits", toVisitRecords(msg.urls, msg.visits)).then(rebuild).then(() => reply({ ok: true }), (e) => reply({ ok: false, error: String(e) }));
-    return true;
-  }
 });

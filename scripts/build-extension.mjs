@@ -7,7 +7,7 @@ const out = "dist/extension";
 rmSync(out, { recursive: true, force: true });
 cpSync("extension", out, { recursive: true });
 mkdirSync(`${out}/lib`, { recursive: true });
-for (const f of ["src/rank.mjs", "src/snapshot.mjs", "src/import.mjs", "prototypes/_shared/tokens.css"]) {
+for (const f of ["src/rank.mjs", "src/snapshot.mjs", "prototypes/_shared/tokens.css"]) {
   copyFileSync(f, `${out}/lib/${basename(f)}`);
 }
 console.error(`built ${out} — load it via chrome://extensions > Load unpacked`);

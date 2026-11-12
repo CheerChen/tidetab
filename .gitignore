@@ -1,5 +1,4 @@
-# Browsing-history exports and analysis output stay local, never committed
-data/
+# Analysis output stays local, never committed
 out/
 dist/
 

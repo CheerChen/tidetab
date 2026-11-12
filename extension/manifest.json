@@ -5,6 +5,5 @@
   "description": "A self-learning new tab page: links rise while you use them and ebb when you stop.",
   "permissions": ["history", "storage", "alarms"],
   "background": { "service_worker": "background.js", "type": "module" },
-  "options_ui": { "page": "options/index.html", "open_in_tab": true },
   "chrome_url_overrides": { "newtab": "newtab/index.html" }
 }
