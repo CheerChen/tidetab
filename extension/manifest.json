@@ -3,6 +3,7 @@
   "name": "tidetab",
   "version": "0.1.0",
   "description": "A self-learning new tab page: links rise while you use them and ebb when you stop.",
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAz8Yz9E2arQScmuM0K0bFXyK0s3Y475X0EZ+Q7ZMtZ80aL0vi5TruQ7wxLGoIa6u9c9lGCNMTQMUAnHZec69zkLscEG160C0Wj7a9PGd6G+Gky5bFlQxPO2PzQFsfMpSXJvjGfl7JeriDWRLbvz9Adg/JKAGh25RqNEEfmi2aSJkXnw9LDrnEO/HKwqgnmNfygoLYcAotCS8DzW6KkuWCy7ajNEH2iM5+PmlMU+J4s8GEvXSTRfLzBHov2okSMkNXUS50vd6KVWrqbvs4Zyphnbv4daSvz5CYoAZ1Raa5h8mit0jb0FuRD2yBeB3IcBtkToN6C8Hccm1q19lMNxWwgQIDAQAB",
   "permissions": ["history", "storage", "alarms"],
   "background": { "service_worker": "background.js", "type": "module" },
   "chrome_url_overrides": { "newtab": "newtab/index.html" }

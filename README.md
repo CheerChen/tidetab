@@ -54,6 +54,12 @@ The preview reads `~/Library/Application Support/Google/Chrome/<profile>/History
 (a temporary copy, since Chrome locks it). Pick another profile with `--profile "<name>"`
 or a file with `--history <path>`.
 
+The `key` in `extension/manifest.json` pins the extension ID to
+`aiglplahhcjicncfloiapkgahdfgojob`, wherever the unpacked folder lives. The visit
+store in IndexedDB belongs to that ID, so do not remove or change the key. The
+matching private key is kept outside the repo and is only needed for a Web Store
+upload.
+
 ## Status
 
 - Done: ranking core with learned fold templates (layer 1: URL granularity),
