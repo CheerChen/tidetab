@@ -1,0 +1,23 @@
+{
+  "language_tag": {
+    "message": "zh-CN"
+  },
+  "extension_description": {
+    "message": "打开新标签页，继续跟进 Jira 工单、GitHub PR 和 Confluence 文档。浏览历史仅在本地处理。"
+  },
+  "search_label": {
+    "message": "搜索链接"
+  },
+  "search_placeholder": {
+    "message": "搜索（/）"
+  },
+  "privacy_label": {
+    "message": "隐私说明"
+  },
+  "privacy_description": {
+    "message": "TideTab 根据 Chrome 浏览历史排列链接。数据仅保存在此浏览器中，不会上传。"
+  },
+  "loading_links": {
+    "message": "TideTab 正在整理链接。如果一直没有显示，请稍后重新打开新标签页。"
+  }
+}

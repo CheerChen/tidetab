@@ -1,0 +1,23 @@
+{
+  "language_tag": {
+    "message": "en"
+  },
+  "extension_description": {
+    "message": "Return to your active Jira issues, GitHub PRs, and Confluence docs from a local-only new tab page."
+  },
+  "search_label": {
+    "message": "Search links"
+  },
+  "search_placeholder": {
+    "message": "Search (/)"
+  },
+  "privacy_label": {
+    "message": "Privacy information"
+  },
+  "privacy_description": {
+    "message": "TideTab uses your Chrome browsing history to rank links. It keeps this data in this browser and does not upload it."
+  },
+  "loading_links": {
+    "message": "TideTab is preparing your links. If they don’t appear, reopen the new tab in a moment."
+  }
+}

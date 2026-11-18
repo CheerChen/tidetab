@@ -1,5 +1,5 @@
 // Service worker: records every visit into the extension's own IndexedDB,
-// keeps the snapshot and async SPA titles synced on visit, and logs clicks locally.
+// and keeps the snapshot and async SPA titles synced on visit.
 import { buildSnapshot } from "./lib/snapshot.mjs";
 
 const HALF_LIFE_DAYS = 14;
@@ -18,10 +18,10 @@ const TRANSITIONS = {
 };
 
 const dbp = new Promise((resolve, reject) => {
-  const req = indexedDB.open("tidetab", 1);
-  req.onupgradeneeded = () => {
-    req.result.createObjectStore("visits", { keyPath: "visitId" });
-    req.result.createObjectStore("clicks", { autoIncrement: true });
+  const req = indexedDB.open("tidetab", 2);
+  req.onupgradeneeded = ({ oldVersion }) => {
+    if (oldVersion === 0) req.result.createObjectStore("visits", { keyPath: "visitId" });
+    if (req.result.objectStoreNames.contains("clicks")) req.result.deleteObjectStore("clicks");
   };
   req.onsuccess = () => resolve(req.result);
   req.onerror = () => reject(req.error);
@@ -145,6 +145,5 @@ chrome.alarms.onAlarm.addListener((alarm) => {
 });
 
 chrome.runtime.onMessage.addListener((msg) => {
-  if (msg.type === "click") put("clicks", [{ key: msg.key, hub: msg.hub, href: msg.href, asOf: msg.asOf, time: Date.now() }]);
   if (msg.type === "sync") rebuild();
 });

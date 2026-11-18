@@ -1,0 +1,23 @@
+{
+  "language_tag": {
+    "message": "ja"
+  },
+  "extension_description": {
+    "message": "新しいタブから、作業中の Jira 課題、GitHub PR、Confluence のページに戻れます。閲覧履歴は端末内で処理します。"
+  },
+  "search_label": {
+    "message": "リンクを検索"
+  },
+  "search_placeholder": {
+    "message": "検索（/）"
+  },
+  "privacy_label": {
+    "message": "プライバシーについて"
+  },
+  "privacy_description": {
+    "message": "TideTab は Chrome の閲覧履歴をもとにリンクを並べます。データはこのブラウザに保存し、アップロードしません。"
+  },
+  "loading_links": {
+    "message": "リンクを準備しています。表示されない場合は、しばらくしてから新しいタブを開き直してください。"
+  }
+}

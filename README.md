@@ -1,75 +1,34 @@
-# tidetab
+# <img src="extension/icons/tab.svg" width="48" height="48" alt="" /> TideTab
 
-A self-learning new tab page for Chrome. It watches where you actually go,
-groups destinations by hub (GitHub, Jira, Confluence, AWS, ...), and lets
-links rise while you use them and ebb away when you stop — like a tide.
+[简体中文](README.zh-CN.md)
 
-Bookmarks you no longer visit are archived, never deleted, so the address bar
-can still find them.
+**Your new tab moves with the tide of your work.**
 
-## Why
+The Jira issue you keep reopening, the pull request you're reviewing, the Confluence page you keep coming back to: they rise on your Chrome new tab as you use them. When you move on to the next project, those links recede and the ones you need now rise in their place. TideTab uses your browsing history, so there's nothing to bookmark or rearrange.
 
-Bookmarks follow an 80/20 split: a few links get used all the time, most are
-never clicked again. Per-project folders lose their meaning as soon as the
-project ends. tidetab replaces manual curation with a ranking learned from
-your own history.
+![TideTab new tab page with three columns of sample links](docs/images/new-tab.jpg)
 
-## Design
+## How it works
 
+- Jira, GitHub, and Confluence each get a column. GitHub pull requests rank separately from repositories; Files and Commits views of the same pull request count toward one link.
+- Press `/` to search by title, issue key, PR number, or URL. Press Enter to open the first result.
+- The interface follows Chrome’s display language: English, Simplified Chinese, Traditional Chinese, Japanese, or Korean. Other languages fall back to English.
+
+## Try it locally
+
+You need Node.js 22 or newer. From the repository root:
+
+```sh
+node --test
+node scripts/build-extension.mjs
 ```
-chrome.history -> collect -> normalize -> score ─┬─> new tab page, grouped by hub
-                  (own store)                    └─> archive stale bookmarks
-```
 
-1. **Collect** — record every visit (`history.onVisited`) in the extension's
-   own IndexedDB, so ranking is not limited by Chrome's 90-day history.
-   On install, seed once from the profile's existing history.
-2. **Normalize** — fold URLs into entries with per-hub rules: a GitHub repo
-   absorbs its PRs and files, a Jira issue is keyed by issue key, a Confluence
-   page by page id, AWS by service; everything else by URL without query/hash.
-3. **Score** — frecency: each visit decays exponentially (half-life ~14 days),
-   typed visits weigh more. Active projects rise, finished ones fade out.
-4. **Show** — the new tab page renders the top entries of each hub as columns.
-5. **Archive** — bookmarks unvisited for 60+ days move to `Archive/<year>-Q<n>`.
-   Dry-run first: proposed moves are listed and applied only on confirmation.
+In Chrome, open `chrome://extensions`, turn on **Developer mode**, and select **Load unpacked** → `dist/extension`.
 
 ## Privacy
 
-All data stays in the browser. No network requests, no remote code.
-The offline preview reads a copy of the local Chrome History database; its output
-in `out/` is git-ignored.
+TideTab reads browsing history to rank links. It processes and stores that data in your Chrome profile without uploading it. The [privacy policy](PRIVACY.md) explains what it keeps and how to delete it.
 
 ## Development
 
-No dependencies; Node 22+ only.
-
-```
-node --test                  # unit tests (synthetic data)
-node scripts/preview.mjs     # rank Chrome "Profile 1" History -> out/preview.md, out/snapshot.js
-open prototypes/newtab/compare.html   # layout variants, reads out/snapshot.js
-node scripts/build-extension.mjs       # assemble dist/extension for "Load unpacked"
-```
-
-The preview reads `~/Library/Application Support/Google/Chrome/<profile>/History`
-(a temporary copy, since Chrome locks it). Pick another profile with `--profile "<name>"`
-or a file with `--history <path>`.
-
-The `key` in `extension/manifest.json` pins the extension ID to
-`aiglplahhcjicncfloiapkgahdfgojob`, wherever the unpacked folder lives. The visit
-store in IndexedDB belongs to that ID, so do not remove or change the key. The
-matching private key is kept outside the repo and is only needed for a Web Store
-upload.
-
-## Status
-
-- Done: ranking core with learned fold templates (layer 1: URL granularity),
-  offline preview, three layout prototypes. Variant C (core columns + chips)
-  is the closest so far.
-- Done: extension skeleton in `extension/` (MV3). The service worker records
-  visits into IndexedDB, rebuilds the snapshot daily, and logs new-tab clicks
-  locally. The new tab page shows Jira, GitHub and Confluence as three
-  columns (16 items each). AWS is ranked per console URL but not shown.
-- Next: check the skeleton in Chrome; chip labels need the site name; then the
-  one-week trial.
-- Later: hubs that promote/demote themselves (layer 2) and project clusters
-  that span hubs (layer 3).
+See the [Chrome Web Store build and release guide](docs/chrome-web-store.md).

@@ -1,5 +1,4 @@
-/* Design tokens shared by every prototype block. Blocks link this file and
-   never redefine :root themselves. */
+/* New tab design tokens for light and dark themes. */
 :root {
   --bg: #f6f6f4;
   --surface: #ffffff;

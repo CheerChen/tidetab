@@ -65,7 +65,7 @@ mkdirSync("out", { recursive: true });
 writeFileSync("out/preview.md", text + "\n");
 console.log(text);
 
-// Snapshot for UI prototypes, written as a script (not JSON) so pages opened from file:// can load it.
+// Write a local snapshot as a script so pages opened from file:// can load it.
 const snapshot = buildSnapshot(visits, now, { halfLifeDays: Number(args["half-life"]), folds });
 writeFileSync("out/snapshot.js", `window.SNAPSHOT = ${JSON.stringify(snapshot)};\n`);
 console.error(`wrote out/snapshot.js (${snapshot.hubs.length} hubs)`);

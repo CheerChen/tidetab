@@ -2,6 +2,17 @@
 out/
 dist/
 
+# Local history exports and release credentials
+/data/
+/history_urls.json
+/history_visits.json
+/History
+/History-journal
+*.pem
+*.crx
+.env
+.env.*
+
 # macOS
 .DS_Store
 ._*

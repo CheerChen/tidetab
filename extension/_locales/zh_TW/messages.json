@@ -1,0 +1,23 @@
+{
+  "language_tag": {
+    "message": "zh-Hant"
+  },
+  "extension_description": {
+    "message": "開啟新分頁，回到正在追蹤的 Jira 議題、GitHub PR 和 Confluence 文件。瀏覽記錄只在本機處理。"
+  },
+  "search_label": {
+    "message": "搜尋連結"
+  },
+  "search_placeholder": {
+    "message": "搜尋（/）"
+  },
+  "privacy_label": {
+    "message": "隱私權說明"
+  },
+  "privacy_description": {
+    "message": "TideTab 根據 Chrome 瀏覽記錄排列連結。資料只儲存在這個瀏覽器中，不會上傳。"
+  },
+  "loading_links": {
+    "message": "TideTab 正在整理連結。如果一直沒有顯示，請稍後重新開啟新分頁。"
+  }
+}
