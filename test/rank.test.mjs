@@ -68,10 +68,15 @@ test("too few instances never fold", () => {
   assert.equal(learnFolds(chats(2)).size, 0);
 });
 
-test("GitHub sub-pages credit the repo", () => {
-  const [n] = normalize("https://github.com/acme/widget/pull/42/files");
-  assert.equal(n.key, "github:acme/widget");
-  assert.equal(n.href, "https://github.com/acme/widget");
+test("GitHub PR sub-pages credit the PR while other sub-pages credit the repo", () => {
+  const [pr] = normalize("https://github.com/acme/widget/pull/42/files");
+  assert.equal(pr.key, "github:acme/widget#42");
+  assert.equal(pr.label, "widget#42");
+  assert.equal(pr.href, "https://github.com/acme/widget/pull/42");
+
+  const [repo] = normalize("https://github.com/acme/widget/actions");
+  assert.equal(repo.key, "github:acme/widget");
+  assert.equal(repo.href, "https://github.com/acme/widget");
 });
 
 test("an issue opened in a board panel credits board and issue, unless typed", () => {

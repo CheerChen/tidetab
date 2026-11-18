@@ -16,6 +16,7 @@ function text(e) {
 function tag(e) {
   if (e.key.startsWith("jira:") && /^[A-Z]+-\d+$/.test(e.label ?? "")) return e.label;
   if (e.key.startsWith("github:") && e.label?.includes("/")) return e.label.split("/")[0];
+  if (e.key.startsWith("github:") && e.label?.includes("#")) return e.label;
   if (e.label?.startsWith(":")) return e.label;
   return "";
 }

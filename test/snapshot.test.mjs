@@ -9,7 +9,7 @@ const visit = (url, ago, title = "") => ({ url, title, time: NOW - ago, transiti
 
 test("hubs are grouped and sorted, entries carry href and trend", () => {
   const visits = [
-    visit("https://github.com/acme/api/pull/3", 1 * DAY, "Fix"),
+    visit("https://github.com/acme/api/actions", 1 * DAY, "Actions"),
     visit("https://github.com/acme/api", 2 * DAY),
     visit("https://acme.atlassian.net/browse/OPS-12", 3 * DAY, "[OPS-12] Rotate keys - JIRA"),
   ];

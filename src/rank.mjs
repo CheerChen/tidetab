@@ -35,12 +35,20 @@ const SKIP_PATHS = /\/(log-?in|sign-?in|oauth2?|callback|auth|sso|set_session|re
 const RULES = [
   function github(u) {
     if (u.hostname !== "github.com") return undefined;
-    const [owner, repo] = u.pathname.split("/").filter(Boolean);
-    if (!owner || ["search", "login", "sessions"].includes(owner)) return null;
+    const [owner, repo, sub, id] = u.pathname.split("/").filter(Boolean);
+    if (!owner || ["search", "login", "sessions", "settings"].includes(owner)) return null;
     if (["notifications", "pulls", "issues"].includes(owner)) {
       return { hub: "GitHub", key: `github:/${owner}`, label: owner, href: `${u.origin}/${owner}` };
     }
     if (!repo) return { hub: "GitHub", key: `github:${owner}`, label: owner, href: `${u.origin}/${owner}` };
+    if (sub === "pull" && /^\d+$/.test(id)) {
+      return {
+        hub: "GitHub",
+        key: `github:${owner}/${repo}#${id}`,
+        label: `${repo}#${id}`,
+        href: `${u.origin}/${owner}/${repo}/pull/${id}`,
+      };
+    }
     return {
       hub: "GitHub",
       key: `github:${owner}/${repo}`,
@@ -170,8 +178,9 @@ export function learnFolds(visits, { sessionGapMinutes = DEFAULTS.sessionGapMinu
   return folds;
 }
 
-// Trailing site names that only add noise to a short label.
-const TITLE_SUFFIX = / [-|–] (JIRA|Confluence|Microsoft Teams|GitHub)$| - [^-]+ - Confluence$| \/ X$/;
+// Trailing site names and GitHub PR metadata that only add noise to a short label.
+const TITLE_SUFFIX =
+  / (?:by [^\s·]+ )?· Pull Request #\d+ · [^\s·]+(?: · GitHub)?$| [-|–·] (JIRA|Confluence|Microsoft Teams|GitHub)$| - [^-]+ - Confluence$| \/ X$/;
 function stripUrl(url) {
   return url.replace(/[?#].*$/, "").replace(/\/$/, "");
 }
