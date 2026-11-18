@@ -9,17 +9,10 @@
   * { box-sizing: border-box; }
   html, body { margin: 0; min-height: 100%; }
   body { padding: 28px 32px; }
-  .top { display: flex; gap: 16px; align-items: center; margin-bottom: 18px; }
-  .search { flex: 0 1 420px; padding: 9px 14px; border: 1px solid var(--border); border-radius: var(--radius);
+  .top { display: flex; margin-bottom: 18px; }
+  .search { flex: 1; width: 100%; padding: 9px 14px; border: 1px solid var(--border); border-radius: var(--radius);
     background: var(--surface); color: var(--text); font: inherit; outline: none; }
   .search:focus { border-color: var(--accent); }
-  .chips { display: flex; flex-wrap: wrap; gap: 6px; flex: 1; }
-  .chip { display: inline-flex; align-items: center; gap: 6px; height: 28px; padding: 0 10px;
-    border: 1px solid var(--border); border-radius: 14px; background: var(--surface);
-    color: var(--text); text-decoration: none; font-size: 12px; white-space: nowrap; }
-  .chip:hover { border-color: var(--c); }
-  .chip i { width: 7px; height: 7px; border-radius: 50%; background: var(--c); }
-  .chip.down { color: var(--muted); }
   .cols { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); background: var(--surface);
     border: 1px solid var(--border); border-radius: var(--radius); }
   .col { padding: 12px 0 8px; border-left: 1px solid var(--border); }
@@ -43,7 +36,6 @@
 <body>
 <div class="top">
   <input class="search" placeholder="搜索（/）" autocomplete="off" />
-  <nav class="chips"></nav>
 </div>
 <ul class="results"></ul>
 <div class="cols"></div>
