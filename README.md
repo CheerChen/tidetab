@@ -28,7 +28,3 @@ In Chrome, open `chrome://extensions`, turn on **Developer mode**, and select **
 ## Privacy
 
 TideTab reads browsing history to rank links. It processes and stores that data in your Chrome profile without uploading it. The [privacy policy](PRIVACY.md) explains what it keeps and how to delete it.
-
-## Development
-
-See the [Chrome Web Store build and release guide](docs/chrome-web-store.md).

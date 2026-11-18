@@ -28,7 +28,3 @@ node scripts/build-extension.mjs
 ## 隐私
 
 TideTab 读取浏览历史来排列链接，只在当前 Chrome 配置中处理和保存这些数据，不会上传。[隐私政策](PRIVACY.md)说明了保存哪些数据，以及如何删除。
-
-## 开发
-
-见 [Chrome 网上应用店打包与发布流程](docs/chrome-web-store.md)。
